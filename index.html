@@ -1,4 +1,42 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><meta property="og:type" content="website"/>
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><script>
+(function(){
+  var __k="4691fa48-5390-40b4-a9ab-b2cdb5d31a35";
+  var __a=null;
+  if(!__k)return;
+  var _f=window.fetch;
+  function patchUrls(data){
+    if(!__a)return data;
+    try{
+      var s=JSON.stringify(data);
+      var keys=Object.keys(__a);
+      for(var i=0;i<keys.length;i++){s=s.split(keys[i]).join(__a[keys[i]]);}
+      return JSON.parse(s);
+    }catch(e){return data;}
+  }
+  window.fetch=function(url,opts){
+    var u=typeof url==="string"?url:String(url);
+    if(!u.startsWith("/api/notion/"))return _f.apply(this,arguments);
+    var path=u.slice("/api/notion".length);
+    var method=(opts&&opts.method)||"GET";
+    var body;
+    try{body=opts&&opts.body?JSON.parse(opts.body):undefined;}catch(e){body=opts&&opts.body;}
+    return _f("https://misiso.com/api/notion/deploy-proxy",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({deployKey:__k,path:path,method:method,body:body})
+    }).then(function(r){
+      var status=r.status;
+      return r.json().then(function(data){
+        return new Response(JSON.stringify(patchUrls(data)),{
+          status:status,
+          headers:{"Content-Type":"application/json"}
+        });
+      });
+    });
+  };
+})();
+</script>
+<meta property="og:type" content="website"/>
 <meta property="og:title" content="Notion Code Preview"/>
 <meta property="og:description" content="Built with Notion Code Previewer"/>
 <meta property="og:image" content="https://orot-ai.github.io/notion-preview-ed787ded/og-image.png"/>
