@@ -1,0 +1,365 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><meta property="og:type" content="website"/>
+<meta property="og:title" content="Notion Code Preview"/>
+<meta property="og:description" content="Built with Notion Code Previewer"/>
+<meta property="og:image" content="https://orot-ai.github.io/notion-preview-ed787ded/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://orot-ai.github.io/notion-preview-ed787ded/og-image.png"/>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2032%2032'%3E%3Crect%20width%3D'32'%20height%3D'32'%20rx%3D'6'%20fill%3D'%25236366f1'%2F%3E%3Ctext%20x%3D'16'%20y%3D'22'%20text-anchor%3D'middle'%20font-size%3D'18'%20fill%3D'white'%20font-family%3D'sans-serif'%3EN%3C%2Ftext%3E%3C%2Fsvg%3E"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap');
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0b0a0f;
+  --bg-card:#14131a;
+  --bg-card-hover:#1c1b24;
+  --surface:#111018;
+  --border:rgba(255,255,255,.06);
+  --text:#ede9e3;
+  --text-dim:#8a8598;
+  --accent:#d4a259;
+  --accent2:#e8c078;
+  --accent-glow:rgba(212,162,89,.12);
+  --gradient:linear-gradient(135deg,#d4a259,#e8c078,#c48b3c);
+  --gradient-sub:linear-gradient(135deg,#d4a259 0%,#a67c3e 100%);
+  --radius:16px;
+  --radius-sm:10px;
+  --transition:.35s cubic-bezier(.4,0,.2,1);
+  --font:'Noto Sans KR',system-ui,-apple-system,sans-serif;
+  --max-w:1120px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;backdrop-filter:blur(20px);background:rgba(11,10,15,.75);border-bottom:1px solid var(--border);transition:background .3s}
+.nav-inner{max-width:var(--max-w);margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1.15rem;letter-spacing:-.02em;cursor:pointer}
+.nav-logo em{font-style:normal;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;align-items:center;gap:24px;font-size:.88rem;color:var(--text-dim)}
+.nav-links a{transition:color .25s;cursor:pointer}
+.nav-links a:hover{color:var(--text)}
+.nav-active{color:var(--accent)!important}
+.nav-cta-link{background:var(--gradient);color:#1a1400!important;padding:8px 20px;border-radius:99px;font-weight:700;font-size:.85rem;-webkit-text-fill-color:#1a1400}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 30px;border-radius:99px;font-weight:700;font-size:.95rem;transition:all var(--transition);cursor:pointer;border:none;position:relative;overflow:hidden;font-family:var(--font)}
+.btn-primary{background:var(--gradient);color:#1a1400;box-shadow:0 4px 24px rgba(212,162,89,.2)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(212,162,89,.3)}
+.btn-ghost{border:1px solid var(--border);color:var(--text-dim);background:transparent}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn-lg{padding:18px 38px;font-size:1.05rem}
+
+/* Hero */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 60px;overflow:hidden}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;filter:blur(140px);opacity:.12;pointer-events:none}
+.hero-glow-1{top:-200px;left:50%;transform:translateX(-50%);background:#d4a259}
+.hero-glow-2{bottom:-200px;right:-100px;background:#c48b3c}
+.hero-inner{position:relative;z-index:1;max-width:760px}
+.chip{display:inline-block;padding:8px 20px;border-radius:99px;border:1px solid var(--border);background:var(--accent-glow);font-size:.85rem;color:var(--accent);font-weight:600;margin-bottom:28px}
+.hero h1{font-size:clamp(2rem,5.5vw,3.6rem);font-weight:900;line-height:1.2;letter-spacing:-.03em;margin-bottom:24px}
+.hero h1 em{font-style:normal;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-desc{font-size:clamp(1rem,2vw,1.12rem);color:var(--text-dim);line-height:1.85;margin-bottom:36px}
+.hero-desc strong{color:var(--text)}
+.hero-buttons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+.hero-stats{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap}
+.h-stat{text-align:center}
+.h-stat strong{display:block;font-size:1.6rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.h-stat span{font-size:.8rem;color:var(--text-dim)}
+.h-stat-div{width:1px;height:36px;background:var(--border)}
+.hero-scroll{position:absolute;bottom:28px;font-size:.8rem;color:var(--text-dim);animation:heroFloat 2.5s ease-in-out infinite}
+@keyframes heroFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* Sections */
+.sec{padding:100px 24px}
+.sec-dark{background:var(--surface)}
+.sec-inner{max-width:var(--max-w);margin:0 auto}
+.sec-label{display:block;font-size:.75rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;text-align:center}
+.sec h2{font-size:clamp(1.5rem,3.5vw,2.3rem);font-weight:800;letter-spacing:-.02em;margin-bottom:20px;text-align:center}
+.sec-subtitle{text-align:center;color:var(--text-dim);font-size:1rem;margin-bottom:48px}
+
+/* Trust */
+.trust{padding:60px 24px;border-bottom:1px solid var(--border)}
+.trust-inner{max-width:var(--max-w);margin:0 auto;text-align:center}
+.trust-label{font-size:.78rem;color:var(--text-dim);margin-bottom:28px;letter-spacing:.12em;text-transform:uppercase}
+.trust-logos{display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:8px;color:var(--text-dim);font-size:.9rem;font-weight:600;opacity:.5;transition:opacity .3s}
+.trust-item:hover{opacity:.85}
+.trust-icon{font-size:1.4rem}
+
+/* Filter */
+.filter-bar{display:flex;justify-content:center;gap:8px;margin-bottom:40px;flex-wrap:wrap}
+.f-chip{padding:8px 20px;border:1px solid var(--border);border-radius:99px;background:transparent;color:var(--text-dim);font-size:.85rem;font-weight:500;cursor:pointer;transition:all .25s;font-family:var(--font)}
+.f-chip:hover{border-color:var(--accent);color:var(--accent)}
+.f-chip.active{background:var(--gradient);color:#1a1400;border-color:transparent;font-weight:700}
+
+/* Service Cards */
+.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.svc-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);transition:all var(--transition);position:relative;overflow:hidden;display:flex;flex-direction:column;cursor:pointer}
+.svc-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient);opacity:0;transition:opacity .3s}
+.svc-card:hover{border-color:rgba(212,162,89,.2);transform:translateY(-6px);background:var(--bg-card-hover)}
+.svc-card:hover::after{opacity:1}
+.svc-card-body{padding:24px 24px 0;flex:1;display:flex;flex-direction:column}
+.svc-card-body .svc-desc{flex:1}
+.svc-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.svc-cat-label{font-size:.75rem;font-weight:600;color:var(--accent);letter-spacing:.05em}
+.svc-badge{padding:4px 12px;border-radius:99px;font-size:.7rem;font-weight:700}
+.svc-badge-open{background:rgba(34,197,94,.12);color:#4ade80}
+.svc-badge-recruit{background:rgba(96,165,250,.12);color:#60a5fa}
+.svc-card h3{font-size:1.15rem;font-weight:700;margin-bottom:8px}
+.svc-meta{display:flex;gap:12px;margin-bottom:10px}
+.svc-meta-tag{font-size:.8rem;color:var(--text-dim)}
+.svc-desc{font-size:.88rem;color:var(--text-dim);line-height:1.7;margin-bottom:0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.svc-card-footer{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;margin-top:auto;border-top:1px solid var(--border)}
+.svc-price{font-size:1.3rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.svc-detail-btn{padding:8px 20px;border-radius:99px;border:1px solid rgba(212,162,89,.25);background:transparent;color:var(--accent);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .25s;font-family:var(--font)}
+.svc-detail-btn:hover{background:var(--accent-glow);border-color:var(--accent)}
+.svc-img{width:100%;height:160px;overflow:hidden;position:relative;background:linear-gradient(135deg,rgba(212,162,89,.1),rgba(20,19,26,.95));display:flex;align-items:center;justify-content:center}
+.svc-img-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.65;transition:opacity .5s ease;z-index:0}
+.svc-card:hover .svc-img-photo{opacity:.85}
+.svc-img-icon{position:relative;z-index:1;font-size:4rem;opacity:.35;transition:all .5s ease;filter:drop-shadow(0 4px 12px rgba(212,162,89,.15))}
+.svc-card:hover .svc-img-icon{opacity:.55;transform:scale(1.15)}
+
+/* Process */
+.proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;position:relative}
+.proc-grid::before{content:'';position:absolute;top:56px;left:12%;right:12%;height:2px;background:var(--border)}
+.proc-step{text-align:center;position:relative;z-index:1}
+.proc-icon{font-size:2.2rem;margin-bottom:16px}
+.proc-num{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:1.2rem;font-weight:800;background:var(--gradient);color:#1a1400;-webkit-text-fill-color:#1a1400}
+.proc-step h4{font-size:1rem;font-weight:700;margin-bottom:8px}
+.proc-step p{font-size:.85rem;color:var(--text-dim);line-height:1.6}
+
+/* Review summary banner */
+.rev-banner{display:flex;justify-content:center;gap:48px;margin-bottom:48px;padding:36px 24px;border-radius:var(--radius);background:linear-gradient(135deg,rgba(212,162,89,.06),rgba(196,139,60,.04));border:1px solid rgba(212,162,89,.1)}
+.rev-banner-item{text-align:center}
+.rev-banner-val{font-size:2rem;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block}
+.rev-banner-label{font-size:.8rem;color:var(--text-dim);margin-top:4px}
+
+/* Review Cards */
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.rev-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;transition:all var(--transition);display:flex;flex-direction:column;height:260px;cursor:pointer}
+.rev-card:hover{border-color:rgba(212,162,89,.15);transform:translateY(-4px)}
+.rev-stars{color:var(--accent);font-size:1rem;letter-spacing:2px;margin-bottom:14px}
+.rev-body{font-size:.92rem;color:var(--text-dim);line-height:1.8;flex:1;margin-bottom:16px;padding-left:14px;border-left:3px solid rgba(212,162,89,.25);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.rev-footer{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--border)}
+.rev-info{display:flex;align-items:center;gap:10px}
+.rev-avatar{width:36px;height:36px;border-radius:50%;background:var(--gradient);color:#1a1400;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800}
+.rev-name{font-size:.85rem;font-weight:600}
+.rev-date{font-size:.75rem;color:var(--text-dim)}
+.rev-svc-tag{padding:4px 12px;border-radius:99px;background:rgba(212,162,89,.08);font-size:.75rem;color:var(--accent);font-weight:500}
+
+/* FAQ */
+.faq-list{max-width:720px;margin:0 auto}
+.faq-item{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;background:var(--bg-card);transition:border-color .3s}
+.faq-item.open{border-color:rgba(212,162,89,.2)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;cursor:pointer;font-weight:600;font-size:.95rem;transition:color .3s;font-family:var(--font);background:none;border:none;color:var(--text);width:100%;text-align:left}
+.faq-q:hover{color:var(--accent)}
+.faq-arrow{font-size:.8rem;color:var(--text-dim);transition:transform .3s}
+.faq-item.open .faq-arrow{transform:rotate(180deg);color:var(--accent)}
+.faq-a{padding:0 24px 20px;font-size:.9rem;color:var(--text-dim);line-height:1.8}
+
+/* Form */
+.form-wrap{max-width:560px;margin:0 auto}
+.form-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:36px 32px}
+.form-field{margin-bottom:20px}
+.form-label{display:block;font-size:.85rem;font-weight:600;margin-bottom:8px}
+.form-label .req{color:var(--accent);margin-left:2px}
+.form-input,.form-textarea{width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.9rem;font-family:var(--font);transition:all .25s;outline:none;background:var(--bg);color:var(--text)}
+.form-input:focus,.form-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.form-textarea{resize:vertical;min-height:110px}
+
+/* Custom Select */
+.csel{position:relative;width:100%;font-family:var(--font)}
+.csel-trigger{width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.9rem;background:var(--bg);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .25s;font-family:var(--font);outline:none;text-align:left}
+.csel-trigger:hover{border-color:rgba(212,162,89,.3)}
+.csel-trigger.open{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);border-radius:var(--radius-sm) var(--radius-sm) 0 0}
+.csel-trigger .csel-placeholder{color:var(--text-dim)}
+.csel-arrow{font-size:.65rem;color:var(--text-dim);transition:transform .25s ease}
+.csel-trigger.open .csel-arrow{transform:rotate(180deg);color:var(--accent)}
+.csel-menu{position:absolute;top:100%;left:0;right:0;z-index:50;background:var(--bg-card);border:1px solid var(--accent);border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);box-shadow:0 12px 36px rgba(0,0,0,.5);overflow:hidden;animation:cselSlide .2s ease}
+@keyframes cselSlide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.csel-opt{padding:11px 16px;font-size:.9rem;color:var(--text-dim);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:10px;font-family:var(--font)}
+.csel-opt:hover{background:var(--accent-glow);color:var(--text)}
+.csel-opt.active{color:var(--accent);font-weight:600;background:rgba(212,162,89,.06)}
+.csel-opt.active::after{content:'\2713';margin-left:auto;font-size:.8rem;color:var(--accent)}
+.csel-opt+.csel-opt{border-top:1px solid var(--border)}
+.star-pick{display:flex;gap:4px}
+.star-pick button{font-size:1.6rem;background:none;border:none;cursor:pointer;transition:all .15s;filter:grayscale(1) opacity(.3)}
+.star-pick button.on{filter:none;transform:scale(1.15)}
+.star-pick button:hover{filter:none}
+.form-btn{width:100%;padding:14px;border:none;border-radius:var(--radius-sm);background:var(--gradient);color:#1a1400;font-size:1rem;font-weight:700;cursor:pointer;transition:all .25s;font-family:var(--font);box-shadow:0 4px 20px rgba(212,162,89,.2)}
+.form-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(212,162,89,.3)}
+.form-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* Success */
+.success-box{text-align:center;padding:48px 24px}
+.success-icon{font-size:4rem;margin-bottom:16px}
+.success-title{font-size:1.5rem;font-weight:700;margin-bottom:8px}
+.success-desc{color:var(--text-dim);font-size:.9rem;margin-bottom:4px}
+.success-sub{color:var(--text-dim);font-size:.8rem;margin-bottom:24px}
+.success-btn{padding:10px 24px;border:1px solid var(--border);border-radius:99px;background:transparent;color:var(--text-dim);cursor:pointer;font-size:.9rem;font-weight:500;font-family:var(--font);transition:all .25s}
+.success-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* CTA */
+.cta-sec{padding:80px 24px 100px}
+.cta-box{max-width:var(--max-w);margin:0 auto;text-align:center;padding:72px 40px;border-radius:24px;background:linear-gradient(135deg,rgba(212,162,89,.06),rgba(196,139,60,.06));border:1px solid rgba(212,162,89,.12);position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;inset:-2px;border-radius:26px;padding:2px;background:var(--gradient);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.2;pointer-events:none}
+.cta-box h2{font-size:clamp(1.4rem,3vw,2rem);margin-bottom:12px}
+.cta-box>p{color:var(--text-dim);margin-bottom:32px;font-size:1.05rem}
+.cta-note{display:block;margin-top:14px;font-size:.82rem;color:var(--text-dim)}
+
+/* Footer */
+.ft{border-top:1px solid var(--border);padding:40px 24px;text-align:center}
+.ft-brand{font-weight:800;font-size:1rem;margin-bottom:12px}
+.ft-links{display:flex;gap:24px;justify-content:center;font-size:.85rem;color:var(--text-dim);flex-wrap:wrap;margin-bottom:12px}
+.ft-links span{cursor:pointer}
+.ft-links span:hover{color:var(--accent)}
+.ft-story-link{color:var(--accent);font-weight:600}
+.ft-copy{font-size:.78rem;color:var(--text-dim)}
+
+/* Loading */
+.loading{text-align:center;padding:60px 24px;color:var(--text-dim)}
+.loading-spin{display:inline-block;width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:24px;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;max-width:600px;width:100%;max-height:85vh;overflow-y:auto;position:relative;animation:slideUp .3s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.modal-top{position:sticky;top:0;background:var(--bg-card);padding:28px 28px 0;z-index:1}
+.modal-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.modal-close{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--text-dim);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.modal-close:hover{border-color:var(--accent);color:var(--accent)}
+.modal-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.modal-tag{padding:4px 12px;border-radius:99px;font-size:.75rem;font-weight:600;background:rgba(212,162,89,.08);color:var(--accent)}
+.modal-divider{height:1px;background:var(--border);margin:0 -28px;padding:0}
+.modal-body{padding:20px 28px 28px;white-space:pre-line;font-size:.92rem;color:var(--text-dim);line-height:1.9}
+.modal-body strong,.modal-section-title{color:var(--text);font-weight:700}
+.modal-price-row{display:flex;justify-content:space-between;align-items:center;padding:20px 28px;border-top:1px solid var(--border);position:sticky;bottom:0;background:var(--bg-card)}
+.modal-price{font-size:1.5rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.modal-cta{padding:12px 28px;border-radius:99px;background:var(--gradient);color:#1a1400;font-weight:700;border:none;cursor:pointer;font-family:var(--font);font-size:.9rem;transition:all .25s}
+.modal-cta:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(212,162,89,.25)}
+.modal-icon-big{font-size:2.5rem;margin-bottom:8px}
+.modal-title-big{font-size:1.5rem;font-weight:800;margin-bottom:4px}
+
+/* Review Carousel */
+.rev-modal{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:24px;animation:fadeIn .25s ease}
+.rev-modal-wrap{max-width:540px;width:100%;position:relative}
+.rev-modal-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:36px 32px;animation:slideUp .3s ease}
+.rev-modal-x{position:absolute;top:-48px;right:0;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.rev-modal-x:hover{border-color:var(--accent);color:var(--accent)}
+.rev-modal-stars{font-size:1.3rem;letter-spacing:3px;color:var(--accent);margin-bottom:20px;text-align:center}
+.rev-modal-quote{font-size:1.02rem;color:var(--text);line-height:2;margin-bottom:24px;padding:24px;background:rgba(212,162,89,.04);border-radius:14px;border-left:4px solid var(--accent)}
+.rev-modal-bot{display:flex;justify-content:space-between;align-items:center}
+.rev-modal-user{display:flex;align-items:center;gap:12px}
+.rev-modal-av{width:48px;height:48px;border-radius:50%;background:var(--gradient);color:#1a1400;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800}
+.rev-modal-nm{font-weight:600;font-size:.95rem}
+.rev-modal-mt{font-size:.8rem;color:var(--text-dim);margin-top:2px}
+.rev-modal-arrows{display:flex;gap:8px}
+.rev-modal-arr{width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--text-dim);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s;font-family:var(--font)}
+.rev-modal-arr:hover:not(:disabled){border-color:var(--accent);color:var(--accent);background:var(--accent-glow)}
+.rev-modal-arr:disabled{opacity:.15;cursor:not-allowed}
+.rev-modal-ct{text-align:center;margin-top:16px;font-size:.78rem;color:var(--text-dim)}
+
+/* Animation */
+.anim{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.anim.visible{opacity:1;transform:translateY(0)}
+
+/* Blog */
+.blog-hero{padding:140px 24px 40px;text-align:center;background:linear-gradient(180deg,rgba(212,162,89,.04),transparent);border-bottom:1px solid var(--border)}
+.blog-hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;letter-spacing:-.02em;margin-bottom:12px}
+.blog-hero h1 em{font-style:normal;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.blog-hero p{color:var(--text-dim);font-size:1.02rem}
+.blog-wrap{max-width:880px;margin:0 auto;padding:40px 24px 100px}
+.blog-filter{display:flex;justify-content:center;gap:8px;margin-bottom:36px;flex-wrap:wrap}
+.blog-list{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+.blog-item{display:flex;flex-direction:column;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all var(--transition);position:relative}
+.blog-item:hover{border-color:rgba(212,162,89,.25);transform:translateY(-4px);background:var(--bg-card-hover);box-shadow:0 14px 36px rgba(0,0,0,.28)}
+.blog-item.featured{grid-column:1/-1;border-color:rgba(212,162,89,.35)}
+.blog-item.featured .blog-thumb{aspect-ratio:21/9}
+.blog-item.featured .blog-title{font-size:1.7rem;line-height:1.3}
+.blog-item.featured .blog-summary{font-size:.98rem;-webkit-line-clamp:3}
+.blog-item.featured .blog-body{padding:32px 36px}
+.blog-item.featured::before{content:'⭐ 추천 스토리';position:absolute;top:16px;left:16px;z-index:2;padding:6px 14px;border-radius:99px;background:var(--gradient);color:#1a1400;font-size:.78rem;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.45)}
+.blog-thumb{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,rgba(212,162,89,.12),rgba(20,19,26,.9));display:flex;align-items:center;justify-content:center;overflow:hidden}
+.blog-thumb-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85;transition:opacity .4s,transform .6s}
+.blog-item:hover .blog-thumb-img{opacity:1;transform:scale(1.06)}
+.blog-thumb-emoji{position:relative;z-index:1;font-size:3.6rem;opacity:.55;filter:drop-shadow(0 4px 12px rgba(212,162,89,.3))}
+.blog-item.featured .blog-thumb-emoji{font-size:5.5rem}
+.blog-body{padding:22px 24px 26px;display:flex;flex-direction:column;flex:1}
+.blog-body .blog-summary{flex:1}
+.blog-cat{display:inline-block;font-size:.72rem;font-weight:700;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.blog-title{font-size:1.2rem;font-weight:700;line-height:1.45;margin-bottom:10px;color:var(--text)}
+.blog-item:hover .blog-title{color:var(--accent2)}
+.blog-summary{font-size:.88rem;color:var(--text-dim);line-height:1.7;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.blog-meta{display:flex;gap:10px;align-items:center;font-size:.78rem;color:var(--text-dim);flex-wrap:wrap}
+.blog-meta-dot{width:3px;height:3px;border-radius:50%;background:var(--text-dim);opacity:.5}
+.blog-views{margin-left:auto;font-size:.78rem;color:var(--text-dim);display:flex;align-items:center;gap:4px}
+.blog-empty{text-align:center;padding:80px 24px;color:var(--text-dim);font-size:.95rem}
+
+/* Article */
+.article-wrap{max-width:760px;margin:0 auto;padding:100px 24px 80px}
+.article-back{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;margin-bottom:28px;border:1px solid var(--border);border-radius:99px;background:transparent;color:var(--text-dim);font-size:.85rem;cursor:pointer;transition:all .25s;font-family:var(--font)}
+.article-back:hover{border-color:var(--accent);color:var(--accent)}
+.article-hero-img{width:100%;height:320px;border-radius:var(--radius);overflow:hidden;margin-bottom:32px;background:linear-gradient(135deg,rgba(212,162,89,.12),rgba(20,19,26,.95));display:flex;align-items:center;justify-content:center;position:relative}
+.article-hero-img img{width:100%;height:100%;object-fit:cover}
+.article-hero-emoji{font-size:6rem;opacity:.65;filter:drop-shadow(0 6px 20px rgba(212,162,89,.3));position:absolute}
+.article-cat{display:inline-block;padding:6px 14px;border-radius:99px;background:var(--accent-glow);color:var(--accent);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.article-title{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;line-height:1.3;letter-spacing:-.02em;margin-bottom:20px;color:var(--text)}
+.article-meta{display:flex;gap:14px;align-items:center;color:var(--text-dim);font-size:.88rem;margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.article-author{display:flex;align-items:center;gap:10px}
+.article-author-av{width:36px;height:36px;border-radius:50%;background:var(--gradient);color:#1a1400;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem}
+.article-author-nm{color:var(--text);font-weight:600}
+.article-content{font-size:1rem;line-height:2;color:var(--text-dim)}
+.article-content h2{font-size:1.4rem;font-weight:800;color:var(--text);margin:36px 0 14px;letter-spacing:-.01em}
+.article-content h3{font-size:1.15rem;font-weight:700;color:var(--text);margin:28px 0 10px}
+.article-content strong{color:var(--text);font-weight:700}
+.article-content p{margin-bottom:14px}
+.article-content ul,.article-content ol{margin:0 0 16px 20px}
+.article-content li{margin-bottom:6px}
+.article-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)}
+.article-tag{padding:6px 14px;border-radius:99px;background:var(--bg-card);border:1px solid var(--border);font-size:.78rem;color:var(--text-dim);transition:all .2s;cursor:default}
+.article-tag:hover{border-color:rgba(212,162,89,.3);color:var(--accent)}
+.article-step{padding-left:8px}
+
+/* Responsive */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .sec{padding:64px 16px}
+  .hero{padding:100px 20px 40px;min-height:auto}
+  .hero h1{font-size:1.8rem}
+  .hero-buttons{flex-direction:column;align-items:center}
+  .h-stat-div{display:none}
+  .hero-stats{gap:16px}
+  .svc-grid{grid-template-columns:1fr}
+  .rev-grid{grid-template-columns:1fr}
+  .rev-card{height:auto}
+  .rev-banner{gap:24px;flex-wrap:wrap}
+  .proc-grid{grid-template-columns:repeat(2,1fr)}
+  .proc-grid::before{display:none}
+  .trust-logos{gap:24px}
+  .form-card{padding:24px 20px}
+  .cta-box{padding:48px 20px}
+  .hero-scroll{display:none}
+  .blog-list{grid-template-columns:1fr;gap:20px}
+  .blog-item.featured .blog-thumb{aspect-ratio:16/9}
+  .blog-item.featured .blog-title{font-size:1.25rem}
+  .blog-item.featured .blog-body{padding:22px 24px 26px}
+}
+</style>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script>if(window.Babel)Babel.disableScriptTags=true;</script>
+</head><body><div id="root"></div><script type="module">
+var __stripPlugin=function(){return{visitor:{ImportDeclaration:function(path){var src=path.node.source.value;if(src.indexOf("./")===0||src.indexOf("../")===0)path.remove();},ExportDefaultDeclaration:function(path){var decl=path.node.declaration;if(decl.type==="FunctionDeclaration"||decl.type==="ClassDeclaration"){path.replaceWith(decl);}else{path.replaceWith({type:"VariableDeclaration",kind:"var",declarations:[{type:"VariableDeclarator",id:{type:"Identifier",name:"_default"},init:decl}]});}},ExportNamedDeclaration:function(path){if(path.node.declaration){path.replaceWith(path.node.declaration);}else{path.remove();}},ExportAllDeclaration:function(path){path.remove();}}};};
+var __dedupePlugin=function(){var _s={};return{visitor:{VariableDeclaration:function(p){if(p.parent.type!=="Program")return;if(p.node.kind!=="const"&&p.node.kind!=="let")return;var kept=[];for(var i=0;i<p.node.declarations.length;i++){var d=p.node.declarations[i];var n=d.id&&d.id.type==="Identifier"?d.id.name:null;if(n&&_s[n]){}else{if(n)_s[n]=true;kept.push(d);}}if(kept.length===0){p.remove();}else{p.node.declarations=kept;}}}}};
+var __jsxDecodePlugin=function(){function _d(v){v=v.replace(/\\u\{([0-9a-fA-F]+)\}/g,function(_,h){return String.fromCodePoint(parseInt(h,16));});v=v.replace(/\\u([0-9a-fA-F]{4})/g,function(_,h){return String.fromCharCode(parseInt(h,16));});return v;}return{visitor:{JSXText:function(p){p.node.value=_d(p.node.value);},StringLiteral:function(p){if(!p.parent||p.parent.type!=="JSXAttribute")return;p.node.value=_d(p.node.value);}}}};
+var __code="import React from 'https://esm.sh/react';\nimport ReactDOM from 'https://esm.sh/react-dom/client';\nimport { useState, useEffect, useRef } from 'https://esm.sh/react';\n\nfunction extractDbId(raw) {\n  if (!raw) return raw;\n  const s = raw.replace(/-/g, '');\n  const m = s.match(/([a-f0-9]{32})/);\n  return m ? m[1] : raw;\n}\n\nfunction rtText(rt) {\n  if (!Array.isArray(rt)) return '';\n  return rt.map(t => t?.plain_text || '').join('');\n}\nfunction escHtml(s) {\n  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');\n}\nfunction inlineMd(s) {\n  return escHtml(s).replace(/\\*\\*(.+?)\\*\\*/g,'<strong>$1</strong>');\n}\nfunction mdToHtml(md) {\n  if (!md) return '';\n  const trimmed = String(md).trim();\n  if (trimmed.startsWith('<')) return trimmed;\n  const lines = String(md).split('\\n');\n  const out = [];\n  let inList = false;\n  const closeList = () => { if (inList) { out.push('</ul>'); inList = false; } };\n  for (const line of lines) {\n    if (line.startsWith('### ')) { closeList(); out.push('<h3>' + inlineMd(line.slice(4)) + '</h3>'); }\n    else if (line.startsWith('## ')) { closeList(); out.push('<h2>' + inlineMd(line.slice(3)) + '</h2>'); }\n    else if (line.startsWith('# ')) { closeList(); out.push('<h2>' + inlineMd(line.slice(2)) + '</h2>'); }\n    else if (line.startsWith('- ') || line.startsWith('• ')) {\n      if (!inList) { out.push('<ul>'); inList = true; }\n      out.push('<li>' + inlineMd(line.slice(2)) + '</li>');\n    }\n    else if (line.trim() === '') { closeList(); }\n    else { closeList(); out.push('<p>' + inlineMd(line) + '</p>'); }\n  }\n  closeList();\n  return out.join('');\n}\n\nconst SERVICE_DB_ID = extractDbId(\"https://www.notion.so/ecb98755885a43d0a1d0a3846a722b79\");\nconst REVIEW_DB_ID  = extractDbId(\"https://www.notion.so/0d1a88d260084664bbc29bdd4225c769\");\nconst STORY_DB_ID   = extractDbId(\"https://www.notion.so/1ee7b140ef6142e68e69330e07f27a5f\");\nconst FAQ_DB_ID     = extractDbId(\"https://www.notion.so/74eb27f44abf4cd1ade2eff05a60653f\");\n\nfunction scrollTo(id) {\n  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });\n}\n\nfunction useAnim() {\n  const ref = useRef(null);\n  useEffect(() => {\n    const el = ref.current;\n    if (!el) return;\n    const obs = new IntersectionObserver(([e]) => {\n      if (e.isIntersecting) { el.classList.add('visible'); obs.unobserve(el); }\n    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });\n    obs.observe(el);\n    return () => obs.disconnect();\n  }, []);\n  return ref;\n}\nfunction Anim({ children, delay }) {\n  const ref = useAnim();\n  const s = delay ? { transitionDelay: delay + 'ms' } : undefined;\n  return <div ref={ref} className=\"anim\" style={s}>{children}</div>;\n}\n\n// ===== Nav =====\nfunction Nav({ view, setView }) {\n  const goHome = (id) => (e) => {\n    e.preventDefault();\n    if (view !== 'home') { setView('home'); setTimeout(() => scrollTo(id), 50); }\n    else { scrollTo(id); }\n  };\n  const goStory = (e) => { e.preventDefault(); setView('blog'); window.scrollTo({ top: 0, behavior: 'smooth' }); };\n  const goLogo = (e) => { e.preventDefault(); setView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); };\n  return (\n    <nav className=\"nav\">\n      <div className=\"nav-inner\">\n        <a href=\"#\" className=\"nav-logo\" onClick={goLogo}>🥃 <em>Angel's Share</em></a>\n        <div className=\"nav-links\">\n          <a href=\"#services\" onClick={goHome('services')}>위스키</a>\n          <a href=\"#process\" onClick={goHome('process')}>이용 방법</a>\n          <a href=\"#reviews\" onClick={goHome('reviews')}>후기</a>\n          <a href=\"#story\" onClick={goStory} className={view==='blog'||view==='article'?'nav-active':''}>위스키 스토리</a>\n          <a href=\"#faq\" onClick={goHome('faq')}>FAQ</a>\n          <a href=\"#cta\" className=\"nav-cta-link\" onClick={goHome('cta')}>주문하기</a>\n        </div>\n      </div>\n    </nav>\n  );\n}\n\n// ===== Hero =====\nfunction Hero({ onStoryClick }) {\n  return (\n    <header className=\"hero\">\n      <div className=\"hero-glow hero-glow-1\"></div>\n      <div className=\"hero-glow hero-glow-2\"></div>\n      <div className=\"hero-inner\">\n        <Anim><div className=\"chip\">🏆 2026 위스키 어워드 수상</div></Anim>\n        <Anim delay={100}><h1>한 잔의 여유,<br/><em>세상에서 가장 깊은 한 모금.</em></h1></Anim>\n        <Anim delay={200}><p className=\"hero-desc\">전 세계 프리미엄 위스키를 큐레이션합니다.<br/><strong>Angel's Share</strong>에서 당신만의 한 잔을 찾아보세요.</p></Anim>\n        <Anim delay={300}>\n          <div className=\"hero-buttons\">\n            <button type=\"button\" className=\"btn btn-primary\" onClick={() => scrollTo('services')}>컬렉션 둘러보기</button>\n            <button type=\"button\" className=\"btn btn-ghost\" onClick={() => scrollTo('reviews')}>고객 후기 →</button>\n            <button type=\"button\" className=\"btn btn-ghost\" onClick={onStoryClick}>📖 위스키 스토리</button>\n          </div>\n        </Anim>\n        <Anim delay={400}>\n          <div className=\"hero-stats\">\n            <div className=\"h-stat\"><strong>300+</strong><span>큐레이션 보틀</span></div>\n            <div className=\"h-stat-div\"></div>\n            <div className=\"h-stat\"><strong>5.0 ★</strong><span>평균 별점</span></div>\n            <div className=\"h-stat-div\"></div>\n            <div className=\"h-stat\"><strong>98%</strong><span>재구매율</span></div>\n          </div>\n        </Anim>\n      </div>\n      <div className=\"hero-scroll\">↓ 스크롤하여 더 알아보기</div>\n    </header>\n  );\n}\n\n// ===== Trust =====\nfunction Trust() {\n  const items = [\n    { icon: '🏆', name: 'Whisky Magazine' },\n    { icon: '🥇', name: 'JW 어워드 2026' },\n    { icon: '🍷', name: '한국소미엘리에협회' },\n    { icon: '📰', name: 'Forbes Korea' },\n    { icon: '✨', name: 'The Spirits Business' },\n  ];\n  return (\n    <div className=\"trust\">\n      <div className=\"trust-inner\">\n        <Anim>\n          <div className=\"trust-label\">As Featured In</div>\n          <div className=\"trust-logos\">\n            {items.map((t, i) => <div key={i} className=\"trust-item\"><span className=\"trust-icon\">{t.icon}</span>{t.name}</div>)}\n          </div>\n        </Anim>\n      </div>\n    </div>\n  );\n}\n\n// ===== Service Data =====\nconst ICON_MAP = { '싱글몰트':'🥃','테이스팅':'🍷','클래스':'🎓','캐스크':'🪵','구독':'📦' };\nconst SVC_IMGS = {\n  '싱글몰트':'https://picsum.photos/seed/whisky-malt/400/200',\n  '테이스팅':'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400&h=200&fit=crop',\n  '클래스':'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=200&fit=crop',\n  '캐스크':'https://images.unsplash.com/photo-1546171753-97d7676e4602?w=400&h=200&fit=crop',\n  '구독':'https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=400&h=200&fit=crop',\n};\nconst FALLBACK_SVC = [\n  { id:'1',icon:'🥃',name:'시그니쳐 싱글몰트 18년',category:'싱글몰트',price:'189,000원',duration:'750ml',desc:'스코틀랜드 하이랜드에서 18년 숙성된 프리미엄 싱글몰트. 바닐라와 꿀의 부드러운 여운.',status:'상시 판매',detail:'🥃 상품 소개\\n스코틀랜드 하이랜드 지역의 전통 증류소에서 18년간 오크통에서 숙성된 싱글몰트 위스키입니다.\\n\\n🌾 테이스팅 노트\\n• 노즈: 바닐라, 꿀, 말린 배\\n• 팔레트: 캐러멜, 드라이 프루트, 오크\\n• 피니시: 길고 부드러운 여운, 약간의 향신료\\n\\n📌 상품 정보\\n• 용량: 750ml\\n• 도수: 43%\\n• 숙성: 18년 (오크통)\\n• 원산지: 스코틀랜드 하이랜드' },\n  { id:'2',icon:'🍷',name:'프리미엄 테이스팅 세트',category:'테이스팅',price:'79,000원',duration:'5종 × 50ml',desc:'5가지 지역 대표 위스키를 한 박스에. 테이스팅 노트 카드 포함.',status:'상시 판매',detail:'🍷 상품 소개\\n5개 지역 대표 위스키를 한 번에 경험할 수 있는 테이스팅 세트입니다.\\n\\n📦 구성품\\n• 50ml 미니어쳐 5병\\n• 테이스팅 노트 카드\\n• 플레이버 휠 가이드\\n• 프리미엄 패키지 박스\\n\\n🎁 선물용으로도 인기!' },\n  { id:'3',icon:'🎓',name:'위스키 마스터 클래스',category:'클래스',price:'120,000원',duration:'3시간',desc:'숙성부터 증류, 테이스팅의 모든 것. 소미엘리에와 함께하는 몰입 클래스.',status:'모집중',detail:'🎓 클래스 소개\\n위스키의 세계를 깊이 이해할 수 있는 3시간 몰입 클래스입니다.\\n\\n📌 치리큐럼\\n1. 위스키의 역사와 종류 (30분)\\n2. 증류 & 숙성 과정 이해 (30분)\\n3. 5종 블라인드 테이스팅 실습 (60분)\\n\\n📍 장소: 서울 성수동 Angel\\'s Share 라운지' },\n  { id:'4',icon:'🪵',name:'프라이빗 캐스크 오너십',category:'캐스크',price:'2,500,000원',duration:'3년~',desc:'나만의 캐스크를 소유하세요. 숙성 과정을 직접 모니터링하고 세상에 하나뿐인 위스키를 만듭니다.',status:'상시 판매',detail:'🪵 프로그램 소개\\n스코틀랜드 현지 증류소에서 나만의 캐스크를 선택하고 숙성 과정을 모니터링할 수 있는 프로그램입니다.\\n\\n✅ 포함 사항\\n• 캐스크 선택 컨설팅\\n• 연 2회 숙성 리포트\\n• 보틀링 시 레이블 커스터마이징\\n• 최소 200병 보틀링 보장' },\n  { id:'5',icon:'📦',name:'월간 위스키 구독박스',category:'구독',price:'99,000원/월',duration:'매월 배송',desc:'매월 엄선된 2병의 위스키 + 페어링 스낵 + 테이스팅 가이드 배송.',status:'상시 판매',detail:'📦 구독 소개\\n매월 엄선된 위스키 2병과 함께 페어링 스낵, 테이스팅 가이드가 매달 집으로 찾아갑니다.\\n\\n✅ 구독자 혹택\\n• 마스터 클래스 10% 할인\\n• 캐스크 프로그램 우선 안내\\n• 한정판 위스키 우선 구매권' },\n];\n\n// ===== Service Modal =====\nfunction ServiceModal({ svc, onClose }) {\n  useEffect(() => {\n    document.body.style.overflow = 'hidden';\n    const onKey = (e) => { if (e.key === 'Escape') onClose(); };\n    window.addEventListener('keydown', onKey);\n    return () => {\n      document.body.style.overflow = '';\n      window.removeEventListener('keydown', onKey);\n    };\n  }, [onClose]);\n  if (!svc) return null;\n  return (\n    <div className=\"modal-overlay\" onClick={onClose}>\n      <div className=\"modal-card\" onClick={(e) => e.stopPropagation()}>\n        <div className=\"modal-top\">\n          <div className=\"modal-header\">\n            <div>\n              <div className=\"modal-icon-big\">{svc.icon}</div>\n              <h2 className=\"modal-title-big\">{svc.name}</h2>\n            </div>\n            <button type=\"button\" className=\"modal-close\" onClick={onClose}>×</button>\n          </div>\n          <div className=\"modal-tags\">\n            <span className=\"modal-tag\">{svc.category}</span>\n            <span className=\"modal-tag\">{svc.duration}</span>\n            <span className=\"modal-tag\">{svc.status}</span>\n          </div>\n        </div>\n        <div className=\"modal-divider\"></div>\n        <div className=\"modal-body\">{svc.detail || svc.desc}</div>\n        <div className=\"modal-price-row\">\n          <div className=\"modal-price\">{svc.price}</div>\n          <button type=\"button\" className=\"modal-cta\" onClick={() => { onClose(); scrollTo('cta'); }}>주문하기 →</button>\n        </div>\n      </div>\n    </div>\n  );\n}\n\n// ===== Service List =====\nfunction ServiceList() {\n  const [data, setData] = useState(null);\n  const [filter, setFilter] = useState('전체');\n  const [modalSvc, setModalSvc] = useState(null);\n  useEffect(() => {\n    fetch('/api/notion/databases/' + SERVICE_DB_ID + '/query', {\n      method: 'POST', headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify({ page_size: 12 })\n    })\n    .then(r => r.json())\n    .then(res => {\n      if (!res.results) { setData(FALLBACK_SVC); return; }\n      const list = res.results.map(p => {\n        const P = p.properties || {};\n        const cat = P['카테고리']?.select?.name || '';\n        return {\n          id: p.id,\n          pageId: p.id,\n          icon: ICON_MAP[cat] || '🥃',\n          name: rtText(P['서비스명']?.title) || '제품',\n          category: cat,\n          price: rtText(P['가격']?.rich_text) || '문의',\n          duration: rtText(P['소요시간']?.rich_text),\n          desc: rtText(P['설명']?.rich_text),\n          status: P['상태']?.select?.name || '상시 판매',\n          detail: rtText(P['상세 설명']?.rich_text),\n          imageUrl: '',\n        };\n      });\n      if (!list.length) { setData(FALLBACK_SVC); return; }\n      setData(list);\n      Promise.all(list.map(item =>\n        fetch('/api/notion/blocks/' + item.pageId + '/children')\n          .then(r => r.json())\n          .then(d => {\n            const imgBlock = (d.results || []).find(b => b.type === 'image');\n            const url = imgBlock?.image?.file?.url || imgBlock?.image?.external?.url || '';\n            return url ? { ...item, imageUrl: url } : item;\n          })\n          .catch(() => item)\n      )).then(enriched => setData(enriched));\n    })\n    .catch(() => setData(FALLBACK_SVC));\n  }, []);\n\n  if (data === null) return <div className=\"loading\"><div className=\"loading-spin\"></div><div>위스키 컴렉션을 불러오는 중…</div></div>;\n  const cats = ['전체', ...Array.from(new Set(data.map(s => s.category).filter(Boolean)))];\n  const items = filter === '전체' ? data : data.filter(s => s.category === filter);\n\n  return (\n    <>\n      <Anim>\n        <div className=\"filter-bar\">\n          {cats.map(c => (\n            <button type=\"button\" key={c} className={'f-chip' + (filter === c ? ' active' : '')} onClick={() => setFilter(c)}>{c}</button>\n          ))}\n        </div>\n      </Anim>\n      <div className=\"svc-grid\">\n        {items.map((s, i) => (\n          <Anim key={s.id} delay={i * 60}>\n            <div className=\"svc-card\" onClick={() => setModalSvc(s)}>\n              <div className=\"svc-img\">\n                {(s.imageUrl || SVC_IMGS[s.category]) && (\n                  <img src={s.imageUrl || SVC_IMGS[s.category]} alt={s.name} className=\"svc-img-photo\" onError={(e) => { e.currentTarget.style.display = 'none'; }} />\n                )}\n                <div className=\"svc-img-icon\">{s.icon}</div>\n              </div>\n              <div className=\"svc-card-body\">\n                <div className=\"svc-card-head\">\n                  <span className=\"svc-cat-label\">{s.category}</span>\n                  <span className={'svc-badge ' + (s.status === '모집중' ? 'svc-badge-recruit' : 'svc-badge-open')}>{s.status}</span>\n                </div>\n                <h3>{s.name}</h3>\n                <div className=\"svc-meta\">\n                  <span className=\"svc-meta-tag\">⏱ {s.duration}</span>\n                </div>\n                <p className=\"svc-desc\">{s.desc}</p>\n              </div>\n              <div className=\"svc-card-footer\">\n                <div className=\"svc-price\">{s.price}</div>\n                <button type=\"button\" className=\"svc-detail-btn\" onClick={(e) => { e.stopPropagation(); setModalSvc(s); }}>자세히 보기</button>\n              </div>\n            </div>\n          </Anim>\n        ))}\n      </div>\n      {modalSvc && <ServiceModal svc={modalSvc} onClose={() => setModalSvc(null)} />}\n    </>\n  );\n}\n\n// ===== Process =====\nfunction Process() {\n  const steps = [\n    { icon: '🔍', title: '취향 상담', desc: '선호하는 맛과 예산을 알려주세요.' },\n    { icon: '🍷', title: '위스키 추천', desc: '전문 소미엘리에가 맞춤 추천.' },\n    { icon: '📦', title: '주문 & 배송', desc: '프리미엄 패키징으로 안전 배송.' },\n    { icon: '🥃', title: '즈기시기', desc: '테이스팅 가이드와 함께 우아한 한 잔.' },\n  ];\n  return (\n    <div className=\"proc-grid\">\n      {steps.map((s, i) => (\n        <Anim key={i} delay={i * 100}>\n          <div className=\"proc-step\">\n            <div className=\"proc-icon\">{s.icon}</div>\n            <div className=\"proc-num\">{i + 1}</div>\n            <h4>{s.title}</h4>\n            <p>{s.desc}</p>\n          </div>\n        </Anim>\n      ))}\n    </div>\n  );\n}\n\n// ===== Review Data =====\nconst STARS = (n) => '★'.repeat(n) + '☆'.repeat(5 - n);\nconst STAR_VAL = { '⭐⭐⭐⭐⭐':5,'⭐⭐⭐⭐':4,'⭐⭐⭐':3,'⭐⭐':2,'⭐':1,'★★★★★':5,'★★★★':4,'★★★':3,'★★':2,'★':1 };\nconst FALLBACK_REV = [\n  { id:'1',author:'정민숙',rating:5,content:'18년산 싱글몰트를 마시고 암호했습니다. 바닐라 향과 꿀의 부드러운 마무리가 정말 기막해요.',date:'2026-04-08',service:'시그니쳐 싱글몰트 18년' },\n  { id:'2',author:'김지우',rating:5,content:'테이스팅 세트로 다양한 지역의 위스키를 경험할 수 있어서 좋았습니다. 선물용으로도 완벽해요.',date:'2026-04-05',service:'프리미엄 테이스팅 세트' },\n  { id:'3',author:'박준호',rating:5,content:'마스터 클래스에서 배운 것들이 유익했어요. 소미엘리에님이 친절하게 설명해주셈습니다.',date:'2026-03-28',service:'위스키 마스터 클래스' },\n  { id:'4',author:'이수진',rating:5,content:'구독박스 매달 두근거리며 기다려집니다. 페어링까지 신경써준 디테일이 뛰어나요.',date:'2026-03-20',service:'월간 위스키 구독박스' },\n  { id:'5',author:'최영민',rating:5,content:'캐스크 오너십은 인생에 한 번 경험해볼 가치가 있습니다. 나만의 위스키를 만들어가는 과정이 감동적이었어요.',date:'2026-03-15',service:'프라이빗 캐스크 오너십' },\n  { id:'6',author:'강현진',rating:5,content:'포장이 고급스럽고 배송도 빠름니다. 위스키 선택이 말도 안 되게 훌륭해요.',date:'2026-03-10',service:'시그니쳐 싱글몰트 18년' },\n];\n\n// ===== Review Carousel =====\nfunction ReviewCarousel({ reviews, startIdx, onClose }) {\n  const [idx, setIdx] = useState(startIdx);\n  useEffect(() => {\n    document.body.style.overflow = 'hidden';\n    const onKey = (e) => {\n      if (e.key === 'Escape') onClose();\n      else if (e.key === 'ArrowLeft' && idx > 0) setIdx(idx - 1);\n      else if (e.key === 'ArrowRight' && idx < reviews.length - 1) setIdx(idx + 1);\n    };\n    window.addEventListener('keydown', onKey);\n    return () => {\n      document.body.style.overflow = '';\n      window.removeEventListener('keydown', onKey);\n    };\n  }, [idx, reviews.length, onClose]);\n  const r = reviews[idx];\n  if (!r) return null;\n  return (\n    <div className=\"rev-modal\" onClick={onClose}>\n      <div className=\"rev-modal-wrap\" onClick={(e) => e.stopPropagation()}>\n        <button type=\"button\" className=\"rev-modal-x\" onClick={onClose}>×</button>\n        <div className=\"rev-modal-card\">\n          <div className=\"rev-modal-stars\">{STARS(r.rating)}</div>\n          <div className=\"rev-modal-quote\">{r.content}</div>\n          <div className=\"rev-modal-bot\">\n            <div className=\"rev-modal-user\">\n              <div className=\"rev-modal-av\">{r.author.charAt(0)}</div>\n              <div>\n                <div className=\"rev-modal-nm\">{r.author}</div>\n                <div className=\"rev-modal-mt\">{r.service} · {r.date}</div>\n              </div>\n            </div>\n            <div className=\"rev-modal-arrows\">\n              <button type=\"button\" className=\"rev-modal-arr\" onClick={() => setIdx(Math.max(0, idx - 1))} disabled={idx === 0}>←</button>\n              <button type=\"button\" className=\"rev-modal-arr\" onClick={() => setIdx(Math.min(reviews.length - 1, idx + 1))} disabled={idx === reviews.length - 1}>→</button>\n            </div>\n          </div>\n        </div>\n        <div className=\"rev-modal-ct\">{idx + 1} / {reviews.length}</div>\n      </div>\n    </div>\n  );\n}\n\n// ===== Review List =====\nfunction ReviewList() {\n  const [data, setData] = useState(null);\n  const [carouselIdx, setCarouselIdx] = useState(null);\n  useEffect(() => {\n    fetch('/api/notion/databases/' + REVIEW_DB_ID + '/query', {\n      method: 'POST', headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify({\n        filter: { property: '공개 여부', checkbox: { equals: true } },\n        sorts: [{ property: '작성일', direction: 'descending' }],\n        page_size: 9\n      })\n    })\n    .then(r => r.json())\n    .then(res => {\n      if (!res.results) { setData(FALLBACK_REV); return; }\n      const list = res.results.map(p => {\n        const P = p.properties || {};\n        const starName = P['별점']?.select?.name || '⭐⭐⭐⭐⭐';\n        return {\n          id: p.id,\n          author: rtText(P['고객명']?.title) || '익명',\n          rating: STAR_VAL[starName] || 5,\n          content: rtText(P['후기 내용']?.rich_text),\n          date: P['작성일']?.date?.start || '',\n          service: P['서비스 종류']?.select?.name || '',\n        };\n      });\n      setData(list.length ? list : FALLBACK_REV);\n    })\n    .catch(() => setData(FALLBACK_REV));\n  }, []);\n\n  if (data === null) return <div className=\"loading\"><div className=\"loading-spin\"></div><div>후기를 불러오는 중…</div></div>;\n  const avg = data.length ? (data.reduce((a, r) => a + r.rating, 0) / data.length).toFixed(1) : '0';\n\n  return (\n    <>\n      <Anim>\n        <div className=\"rev-banner\">\n          <div className=\"rev-banner-item\"><span className=\"rev-banner-val\">{avg}</span><div className=\"rev-banner-label\">평균 별점</div></div>\n          <div className=\"rev-banner-item\"><span className=\"rev-banner-val\">{data.length}+</span><div className=\"rev-banner-label\">실제 후기</div></div>\n          <div className=\"rev-banner-item\"><span className=\"rev-banner-val\">98%</span><div className=\"rev-banner-label\">재구매율</div></div>\n        </div>\n      </Anim>\n      <div className=\"rev-grid\">\n        {data.map((r, i) => (\n          <Anim key={r.id} delay={i * 70}>\n            <div className=\"rev-card\" onClick={() => setCarouselIdx(i)}>\n              <div className=\"rev-stars\">{STARS(r.rating)}</div>\n              <p className=\"rev-body\">{r.content}</p>\n              <div className=\"rev-footer\">\n                <div className=\"rev-info\">\n                  <div className=\"rev-avatar\">{r.author.charAt(0)}</div>\n                  <div>\n                    <div className=\"rev-name\">{r.author}</div>\n                    <div className=\"rev-date\">{r.date}</div>\n                  </div>\n                </div>\n                {r.service && <span className=\"rev-svc-tag\">{r.service}</span>}\n              </div>\n            </div>\n          </Anim>\n        ))}\n      </div>\n      {carouselIdx !== null && <ReviewCarousel reviews={data} startIdx={carouselIdx} onClose={() => setCarouselIdx(null)} />}\n    </>\n  );\n}\n\n// ===== Custom Select =====\nfunction CustomSelect({ value, onChange, options, placeholder }) {\n  const [open, setOpen] = useState(false);\n  const ref = useRef(null);\n  useEffect(() => {\n    const onDoc = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };\n    document.addEventListener('click', onDoc);\n    return () => document.removeEventListener('click', onDoc);\n  }, []);\n  return (\n    <div className=\"csel\" ref={ref}>\n      <button type=\"button\" className={'csel-trigger' + (open ? ' open' : '')} onClick={() => setOpen(!open)}>\n        <span className={value ? '' : 'csel-placeholder'}>{value || placeholder}</span>\n        <span className=\"csel-arrow\">▼</span>\n      </button>\n      {open && (\n        <div className=\"csel-menu\">\n          {options.map(opt => (\n            <div key={opt} className={'csel-opt' + (value === opt ? ' active' : '')} onClick={() => { onChange(opt); setOpen(false); }}>{opt}</div>\n          ))}\n        </div>\n      )}\n    </div>\n  );\n}\n\n// ===== Review Form =====\nfunction ReviewForm() {\n  const [name, setName] = useState('');\n  const [svc, setSvc] = useState('');\n  const [rating, setRating] = useState(5);\n  const [content, setContent] = useState('');\n  const [loading, setLoading] = useState(false);\n  const [done, setDone] = useState(false);\n  const svcOpts = ['싱글몰트','테이스팅','클래스','캐스크','구독'];\n  const submit = (e) => {\n    e.preventDefault();\n    if (!name || !svc || !content) return;\n    setLoading(true);\n    const star = '⭐'.repeat(rating);\n    const today = new Date().toISOString().slice(0, 10);\n    const body = {\n      parent: { database_id: REVIEW_DB_ID },\n      properties: {\n        '고객명': { title: [{ text: { content: name } }] },\n        '후기 내용': { rich_text: [{ text: { content } }] },\n        '별점': { select: { name: star } },\n        '서비스 종류': { select: { name: svc } },\n        '작성일': { date: { start: today } },\n        '공개 여부': { checkbox: false }\n      }\n    };\n    fetch('/api/notion/pages', {\n      method: 'POST', headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify(body)\n    })\n    .then(() => { setLoading(false); setDone(true); })\n    .catch(() => { setLoading(false); setDone(true); });\n  };\n  const reset = () => { setName(''); setSvc(''); setRating(5); setContent(''); setDone(false); };\n  if (done) return (\n    <div className=\"form-wrap\">\n      <div className=\"form-card success-box\">\n        <div className=\"success-icon\">🎉</div>\n        <div className=\"success-title\">후기 등록 완료!</div>\n        <div className=\"success-desc\">소중한 후기를 남겨주셔서 감사합니다.</div>\n        <div className=\"success-sub\">검토 후 공개됩니다.</div>\n        <button type=\"button\" className=\"success-btn\" onClick={reset}>새 후기 작성</button>\n      </div>\n    </div>\n  );\n  return (\n    <div className=\"form-wrap\">\n      <form className=\"form-card\" onSubmit={submit}>\n        <div className=\"form-field\">\n          <label className=\"form-label\">이름<span className=\"req\">*</span></label>\n          <input type=\"text\" className=\"form-input\" value={name} onChange={(e) => setName(e.target.value)} placeholder=\"홍길동\" />\n        </div>\n        <div className=\"form-field\">\n          <label className=\"form-label\">서비스 종류<span className=\"req\">*</span></label>\n          <CustomSelect value={svc} onChange={setSvc} options={svcOpts} placeholder=\"서비스 종류를 선택하세요\" />\n        </div>\n        <div className=\"form-field\">\n          <label className=\"form-label\">별점<span className=\"req\">*</span></label>\n          <div className=\"star-pick\">\n            {[1,2,3,4,5].map(n => (\n              <button type=\"button\" key={n} className={rating >= n ? 'on' : ''} onClick={() => setRating(n)}>★</button>\n            ))}\n          </div>\n        </div>\n        <div className=\"form-field\">\n          <label className=\"form-label\">후기 내용<span className=\"req\">*</span></label>\n          <textarea className=\"form-textarea\" value={content} onChange={(e) => setContent(e.target.value)} placeholder=\"경험을 자세히 공유해 주세요.\"></textarea>\n        </div>\n        <button type=\"submit\" className=\"form-btn\" disabled={loading || !name || !svc || !content}>{loading ? '등록 중…' : '후기 등록하기'}</button>\n      </form>\n    </div>\n  );\n}\n\n// ===== Blog Data =====\nconst FALLBACK_STORIES = [\n  { id:'s1', title:'위스키 입문자를 위한 5가지 기본 지식', category:'입문', summary:'처음 위스키를 접하는 분들을 위한 필수 가이드.', emoji:'🥃', imageUrl:'', author:'Angel\\'s Share 팀', date:'2026-04-20', readTime:5, views:1240, featured:true, tags:['입문자','가이드','테이스팅'],\n    content:'<h2>위스키란?</h2><p>위스키는 곡물을 증류해 오크통에서 숙성시킨 증류주입니다.</p><h2>종류</h2><ul><li>싱글몰트</li><li>블렌디드</li><li>버본</li></ul><h2>마시는 법</h2><p>니트, 온더락, 하이볼 등 다양한 방법이 있습니다.</p>' },\n  { id:'s2', title:'스코틀랜드 하이랜드의 숨은 증류소 탐방기', category:'싱글몰트', summary:'300년 역사의 하이랜드 증류소 이야기.', emoji:'🏴', imageUrl:'', author:'박준호', date:'2026-04-15', readTime:8, views:892, featured:false, tags:['스코틀랜드','증류소','역사'],\n    content:'<h2>하이랜드의 매력</h2><p>하이랜드는 스코틀랜드 위스키의 심장입니다.</p><h2>대표 증류소</h2><p>글렌모렌지, 달모어 등이 유명합니다.</p>' },\n  { id:'s3', title:'위스키와 치즈, 완벽한 페어링 가이드', category:'페어링', summary:'풍미를 극대화하는 치즈-위스키 조합.', emoji:'🧀', imageUrl:'', author:'김지우', date:'2026-04-10', readTime:6, views:567, featured:false, tags:['페어링','치즈','테이스팅'],\n    content:'<h2>기본 원칙</h2><p>같은 강도껑리 매칭하세요.</p><h2>추천 조합</h2><ul><li>스모키 위스키 + 블루치즈</li><li>달콤한 버본 + 체다</li></ul>' },\n  { id:'s4', title:'나만의 캐스크, 어떻게 시작할까?', category:'캐스크', summary:'캐스크 오너십 프로그램 완벽 가이드.', emoji:'🪵', imageUrl:'', author:'Angel\\'s Share 팀', date:'2026-04-05', readTime:10, views:445, featured:false, tags:['캐스크','오너십','투자'],\n    content:'<h2>캐스크 오너십이란?</h2><p>증류소에서 직접 오크통을 소유하는 프로그램입니다.</p><h2>장점</h2><p>나만의 위스키를 만들 수 있습니다.</p>' },\n  { id:'s5', title:'일본 위스키가 세계를 사로잡은 이유', category:'문화', summary:'야마자키부터 하쿠슈까지, 재팬 위스키의 모든 것.', emoji:'🗾', imageUrl:'', author:'이수진', date:'2026-03-30', readTime:7, views:1024, featured:false, tags:['일본','문화','역사'],\n    content:'<h2>일본 위스키의 역사</h2><p>1923년 야마자키 증류소에서 시작되었습니다.</p><h2>세계적 인정</h2><p>2015년 World Whisky Bible에서 최고점을 받았습니다.</p>' },\n];\n\n// ===== Blog List =====\nfunction BlogList({ onOpen }) {\n  const [data, setData] = useState(null);\n  const [filter, setFilter] = useState('전체');\n  useEffect(() => {\n    fetch('/api/notion/databases/' + STORY_DB_ID + '/query', {\n      method: 'POST', headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify({\n        filter: { property: '상태', status: { equals: '발행' } },\n        sorts: [{ property: '발행일', direction: 'descending' }],\n        page_size: 20\n      })\n    })\n    .then(r => r.json())\n    .then(res => {\n      if (!res.results) { setData(FALLBACK_STORIES); return; }\n      const list = res.results.map(p => {\n        const P = p.properties || {};\n        return {\n          id: p.id,\n          title: rtText(P['제목']?.title) || '제목 없음',\n          category: P['카테고리']?.select?.name || '',\n          summary: rtText(P['요약']?.rich_text),\n          content: rtText(P['본문']?.rich_text),\n          emoji: rtText(P['썸네일이모지']?.rich_text) || '🥃',\n          imageUrl: P['대표이미지URL']?.url || '',\n          author: rtText(P['저자']?.rich_text) || 'Angel\\'s Share 팀',\n          date: P['발행일']?.date?.start || '',\n          readTime: P['읽는시간']?.number || 5,\n          views: P['조회수']?.number || 0,\n          featured: P['추천']?.checkbox || false,\n          tags: (P['태그']?.multi_select || []).map(t => t.name)\n        };\n      });\n      setData(list.length ? list : FALLBACK_STORIES);\n    })\n    .catch(() => setData(FALLBACK_STORIES));\n  }, []);\n\n  if (data === null) return <div className=\"loading\"><div className=\"loading-spin\"></div><div>스토리를 불러오는 중…</div></div>;\n  const cats = ['전체', ...Array.from(new Set(data.map(s => s.category).filter(Boolean)))];\n  const items = (filter === '전체' ? data : data.filter(s => s.category === filter))\n    .slice().sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));\n\n  return (\n    <div className=\"blog-wrap\">\n      <Anim>\n        <div className=\"blog-filter\">\n          {cats.map(c => (\n            <button type=\"button\" key={c} className={'f-chip' + (filter === c ? ' active' : '')} onClick={() => setFilter(c)}>{c}</button>\n          ))}\n        </div>\n      </Anim>\n      {items.length === 0 ? (\n        <div className=\"blog-empty\">해당 카테고리의 게시글이 아직 없어요.</div>\n      ) : (\n        <div className=\"blog-list\">\n          {items.map((s, i) => (\n            <Anim key={s.id} delay={i * 50}>\n              <article className={'blog-item' + (s.featured ? ' featured' : '')} onClick={() => onOpen(s)}>\n                <div className=\"blog-thumb\">\n                  {s.imageUrl && <img src={s.imageUrl} alt={s.title} className=\"blog-thumb-img\" onError={(e) => { e.currentTarget.style.display = 'none'; }} />}\n                  <div className=\"blog-thumb-emoji\">{s.emoji}</div>\n                </div>\n                <div className=\"blog-body\">\n                  <div className=\"blog-cat\">{s.category}</div>\n                  <h3 className=\"blog-title\">{s.title}</h3>\n                  <p className=\"blog-summary\">{s.summary}</p>\n                  <div className=\"blog-meta\">\n                    <span>{s.author}</span>\n                    <span className=\"blog-meta-dot\"></span>\n                    <span>{s.date}</span>\n                    <span className=\"blog-meta-dot\"></span>\n                    <span>{s.readTime}분 읽기</span>\n                    <span className=\"blog-views\">👁 {s.views.toLocaleString()}</span>\n                  </div>\n                </div>\n              </article>\n            </Anim>\n          ))}\n        </div>\n      )}\n    </div>\n  );\n}\n\n// ===== Blog Article =====\nfunction BlogArticle({ article, onBack }) {\n  if (!article) return null;\n  const html = mdToHtml(article.content || '');\n  const innerHTMLProp = { __html: html };\n  return (\n    <div className=\"article-wrap\">\n      <button type=\"button\" className=\"article-back\" onClick={onBack}>← 스토리 목록</button>\n      <div className=\"article-hero-img\">\n        {article.imageUrl && <img src={article.imageUrl} alt={article.title} />}\n        {!article.imageUrl && <div className=\"article-hero-emoji\">{article.emoji}</div>}\n      </div>\n      <div className=\"article-cat\">{article.category}</div>\n      <h1 className=\"article-title\">{article.title}</h1>\n      <div className=\"article-meta\">\n        <div className=\"article-author\">\n          <div className=\"article-author-av\">{article.author.charAt(0)}</div>\n          <span className=\"article-author-nm\">{article.author}</span>\n        </div>\n        <span>·</span>\n        <span>{article.date}</span>\n        <span>·</span>\n        <span>{article.readTime}분 읽기</span>\n        <span>·</span>\n        <span>👁 {article.views.toLocaleString()}</span>\n      </div>\n      <div className=\"article-content\" dangerouslySetInnerHTML={innerHTMLProp}></div>\n      {article.tags && article.tags.length > 0 && (\n        <div className=\"article-tags\">\n          {article.tags.map(t => <span key={t} className=\"article-tag\">#{t}</span>)}\n        </div>\n      )}\n    </div>\n  );\n}\n\n// ===== FAQ =====\nconst FALLBACK_FAQ = [\n  { id:'f1', q:'주문 후 배송은 얼마나 걸리나요?', a:'평일 오후 2시 이전 주문 건은 당일 출고되며, 영업일 기준 1-2일 이내 도착합니다. 프리미엄 패키징으로 안전하게 배송됩니다.', category:'주문/배송' },\n  { id:'f2', q:'위스키를 선물하고 싶은데 가능한가요?', a:'네, 가능합니다. 모든 상품은 프리미엄 기프트 박스에 담겨 배송되며, 카드 메시지도 추가할 수 있습니다.', category:'상품' },\n  { id:'f3', q:'정기 구독은 어떻게 신청하나요?', a:'월간 구독박스는 주문 페이지에서 신청 가능하며, 매월 25일 결제 후 다음 달 1일에 배송됩니다.', category:'구독' },\n  { id:'f4', q:'마스터 클래스 일정은 어떻게 되나요?', a:'매월 둘째, 넷째 주 토요일 오후에 진행되며, 온라인 라이브도 가능합니다.', category:'클래스' },\n];\nfunction FAQ() {\n  const [open, setOpen] = useState(0);\n  const [data, setData] = useState(null);\n  const [filter, setFilter] = useState('전체');\n  useEffect(() => {\n    fetch('/api/notion/databases/' + FAQ_DB_ID + '/query', {\n      method: 'POST', headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify({\n        filter: { property: '공개 여부', checkbox: { equals: true } },\n        sorts: [{ property: '정렬순서', direction: 'ascending' }],\n        page_size: 50\n      })\n    })\n    .then(r => r.json())\n    .then(res => {\n      if (!res.results) { setData(FALLBACK_FAQ); return; }\n      const list = res.results.map(p => {\n        const P = p.properties || {};\n        return {\n          id: p.id,\n          q: rtText(P['질문']?.title),\n          a: rtText(P['답변']?.rich_text),\n          category: P['카테고리']?.select?.name || '기타',\n        };\n      }).filter(f => f.q);\n      setData(list.length ? list : FALLBACK_FAQ);\n    })\n    .catch(() => setData(FALLBACK_FAQ));\n  }, []);\n  if (data === null) return <div className=\"loading\"><div className=\"loading-spin\"></div><div>FAQ를 불러오는 중…</div></div>;\n  const cats = ['전체', ...Array.from(new Set(data.map(f => f.category).filter(Boolean)))];\n  const items = filter === '전체' ? data : data.filter(f => f.category === filter);\n  return (\n    <>\n      <Anim>\n        <div className=\"filter-bar\">\n          {cats.map(c => (\n            <button type=\"button\" key={c} className={'f-chip' + (filter === c ? ' active' : '')} onClick={() => { setFilter(c); setOpen(-1); }}>{c}</button>\n          ))}\n        </div>\n      </Anim>\n      <div className=\"faq-list\">\n        {items.map((f, i) => (\n          <div key={f.id} className={'faq-item' + (open === i ? ' open' : '')}>\n            <button type=\"button\" className=\"faq-q\" onClick={() => setOpen(open === i ? -1 : i)}>\n              <span>Q. {f.q}</span>\n              <span className=\"faq-arrow\">▼</span>\n            </button>\n            {open === i && <div className=\"faq-a\">A. {f.a}</div>}\n          </div>\n        ))}\n      </div>\n    </>\n  );\n}\n\n// ===== CTA =====\nfunction CTA() {\n  return (\n    <section id=\"cta\" className=\"cta-sec\">\n      <div className=\"cta-box\">\n        <Anim><h2>당신만의 한 잔을 찾을 준비가 되셔나요?</h2></Anim>\n        <Anim delay={100}><p>지금 상담 신청하시면 전문 소미엘리에가 맞춤 위스키를 추천해드립니다.</p></Anim>\n        <Anim delay={200}>\n          <div className=\"hero-buttons\">\n            <button type=\"button\" className=\"btn btn-primary btn-lg\" onClick={() => scrollTo('services')}>컬렉션 둘러보기</button>\n            <button type=\"button\" className=\"btn btn-ghost btn-lg\" onClick={() => scrollTo('review-form')}>후기 작성하기</button>\n          </div>\n          <span className=\"cta-note\">🎁 첫 주문 시 무료 테이스팅 노트 제공</span>\n        </Anim>\n      </div>\n    </section>\n  );\n}\n\n// ===== App =====\nfunction App() {\n  const [view, setView] = useState('home');\n  const [article, setArticle] = useState(null);\n  const openArticle = (a) => { setArticle(a); setView('article'); window.scrollTo({ top: 0, behavior: 'smooth' }); };\n  const backToBlog = () => { setView('blog'); window.scrollTo({ top: 0, behavior: 'smooth' }); };\n  return (\n    <>\n      <Nav view={view} setView={setView} />\n      {view === 'home' && (\n        <>\n          <Hero onStoryClick={() => { setView('blog'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />\n          <Trust />\n          <section id=\"services\" className=\"sec\">\n            <div className=\"sec-inner\">\n              <Anim><span className=\"sec-label\">Collection</span><h2>엄선된 위스키 컴렉션</h2><p className=\"sec-subtitle\">전 세계 프리미엄 위스키를 만나보세요</p></Anim>\n              <ServiceList />\n            </div>\n          </section>\n          <section id=\"process\" className=\"sec sec-dark\">\n            <div className=\"sec-inner\">\n              <Anim><span className=\"sec-label\">How it works</span><h2>간편한 이용 프로세스</h2><p className=\"sec-subtitle\">단 4단계로 완성되는 프리미엄 경험</p></Anim>\n              <Process />\n            </div>\n          </section>\n          <section id=\"reviews\" className=\"sec\">\n            <div className=\"sec-inner\">\n              <Anim><span className=\"sec-label\">Testimonials</span><h2>고객의 진심 어린 후기</h2><p className=\"sec-subtitle\">실제 경험하신 분들의 이야기</p></Anim>\n              <ReviewList />\n            </div>\n          </section>\n          <section id=\"faq\" className=\"sec sec-dark\">\n            <div className=\"sec-inner\">\n              <Anim><span className=\"sec-label\">FAQ</span><h2>자주 묻는 질문</h2><p className=\"sec-subtitle\">궁금하신 점을 풀어드립니다</p></Anim>\n              <FAQ />\n            </div>\n          </section>\n          <section id=\"review-form\" className=\"sec\">\n            <div className=\"sec-inner\">\n              <Anim><span className=\"sec-label\">Share</span><h2>나의 후기 남기기</h2><p className=\"sec-subtitle\">여러분의 경험을 나눠주세요</p></Anim>\n              <ReviewForm />\n            </div>\n          </section>\n          <CTA />\n        </>\n      )}\n      {view === 'blog' && (\n        <>\n          <div className=\"blog-hero\">\n            <Anim><h1>위스키 <em>스토리</em></h1></Anim>\n            <Anim delay={100}><p>위스키를 더 깊이 이해하는 이야기</p></Anim>\n          </div>\n          <BlogList onOpen={openArticle} />\n        </>\n      )}\n      {view === 'article' && <BlogArticle article={article} onBack={backToBlog} />}\n      <footer className=\"ft\">\n        <div className=\"ft-brand\">🥃 Angel's Share</div>\n        <div className=\"ft-links\">\n          <span className=\"ft-story-link\" onClick={() => { setView('blog'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>📖 위스키 스토리</span>\n          <span>이용약관</span>\n          <span>개인정보처리방침</span>\n          <span>문의하기</span>\n        </div>\n        <div className=\"ft-copy\">© 2026 Angel's Share. All rights reserved.</div>\n      </footer>\n    </>\n  );\n}\n\nReactDOM.createRoot(document.getElementById('root')).render(<App />);";
+var __result=Babel.transform(__code,{filename:"app.tsx",presets:["react","typescript"],plugins:[__stripPlugin,__dedupePlugin,__jsxDecodePlugin],generatorOpts:{jsescOption:{minimal:true}},sourceType:"module"});
+var __s=document.createElement("script");__s.type="module";__s.textContent=__result.code;document.head.appendChild(__s);
+</script>
+</body></html>
